@@ -25,6 +25,20 @@ fun main(){
     println(product(10,10))
     printArray(names)
 
+    val numbers = arrayOf(1,2,3,4,5,6,7,8,9,10)
+    isEven(numbers)
+
+}
+
+fun isEven(numbers:Array<Int>){
+    for(number in numbers){
+        if(number % 2 == 0)
+            println("the number $number is Even")
+        else {
+            println("the number $number isn't Even")
+        }
+    }
+
 }
 
 fun add():Int{
