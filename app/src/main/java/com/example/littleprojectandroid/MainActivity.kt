@@ -19,7 +19,7 @@ class MainActivity : ComponentActivity() {
         //enableEdgeToEdge()
         setContent {
             LittleProjectAndroidTheme {
-                Text(text = "Solo se que no se nada")
+                Text(text = "Solo se que no} se nada")
                 Text(text = "welcome to your first app")
                 /*
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
