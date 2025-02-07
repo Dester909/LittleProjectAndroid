@@ -16,20 +16,25 @@ import com.example.littleprojectandroid.ui.theme.LittleProjectAndroidTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        //enableEdgeToEdge()
         setContent {
             LittleProjectAndroidTheme {
+                Text(text = "Solo se que no se nada")
+                Text(text = "welcome to your first app")
+                /*
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
                         name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
+
+                 */
             }
         }
     }
 }
-
+/*
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
@@ -44,4 +49,4 @@ fun GreetingPreview() {
     LittleProjectAndroidTheme {
         Greeting("Android")
     }
-}
+}*/

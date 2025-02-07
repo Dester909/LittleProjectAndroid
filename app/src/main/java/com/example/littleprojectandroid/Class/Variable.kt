@@ -27,6 +27,12 @@ fun main(){
 
     val numbers = arrayOf(1,2,3,4,5,6,7,8,9,10)
     isEven(numbers)
+    println(getday(1))
+
+    val person = Person("Marco",20)
+    println(person.name)
+    println(person.age)
+    person.displayInformation()
 
 }
 
@@ -38,7 +44,27 @@ fun isEven(numbers:Array<Int>){
             println("the number $number isn't Even")
         }
     }
+}
+fun getday(day:Int):String{
+    var name = ""
 
+    when(day){
+        1 -> name = "Monday"
+        2 -> name = "Thuesday"
+        3 -> name = "Wendsday"
+        4 -> name = "Thursday"
+        5 -> name = "Friday"
+        6 -> name = "Saturday"
+        7 -> name = "Sunday"
+        else -> name = "Incorrect value"
+    }
+    return name
+}
+
+class Person(val name:String, val age:Int){
+    fun displayInformation(){
+        println("Name:$name  Age:$age")
+    }
 }
 
 fun add():Int{
