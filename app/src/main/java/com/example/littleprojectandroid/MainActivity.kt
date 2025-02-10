@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                         Text(text = "welcome to your first app")
                     }
                     Column {
-                        Text(text = "Solo se que no} se nada")
+                        Text(text = "Solo se que no se nada")
                         Text(text = "welcome to your first app")
                     }
                 }
