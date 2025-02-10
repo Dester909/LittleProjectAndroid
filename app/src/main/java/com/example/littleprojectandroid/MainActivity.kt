@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -19,8 +21,21 @@ class MainActivity : ComponentActivity() {
         //enableEdgeToEdge()
         setContent {
             LittleProjectAndroidTheme {
-                Text(text = "Solo se que no} se nada")
-                Text(text = "welcome to your first app")
+                Row(){
+                    Column {
+                        Text(text = "Solo se que no} se nada")
+                        Text(text = "welcome to your first app")
+                    }
+                    Column {
+                        Text(text = "Solo se que no} se nada")
+                        Text(text = "welcome to your first app")
+                    }
+                    Column {
+                        Text(text = "Solo se que no} se nada")
+                        Text(text = "welcome to your first app")
+                    }
+                }
+
                 /*
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     Greeting(
@@ -32,6 +47,10 @@ class MainActivity : ComponentActivity() {
                  */
             }
         }
+    }
+
+    private fun column(function: () -> Unit) {
+
     }
 }
 /*
