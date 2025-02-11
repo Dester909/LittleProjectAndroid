@@ -110,7 +110,7 @@ class MainActivity : ComponentActivity() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            TextComposable("1")
+            TextComposable("1.")
             TextComposable("2")
             TextComposable("3")
             TextComposable("4")
