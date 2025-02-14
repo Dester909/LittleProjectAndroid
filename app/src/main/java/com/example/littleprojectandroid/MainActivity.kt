@@ -41,7 +41,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.littleprojectandroid.ui.screens.HomeScreen
 import com.example.littleprojectandroid.ui.screens.MainMenuScreen
+import com.example.littleprojectandroid.ui.screens.ScreenTest
 import com.example.littleprojectandroid.ui.theme.LittleProjectAndroidTheme
 
 class MainActivity : ComponentActivity() {
@@ -51,25 +53,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             LittleProjectAndroidTheme {
                 ComposeMultiScreenApp()
-              //  Column(){
-                //    Column() {
-                  //      TextComposable("Marco")
-                    //    TextComposable()
-                      //  TextComposable()
-                        //TextComposable()
-                    //}
-                    //Row() {
-                      //  TextComposable()
-                        //TextComposable()
-                       // TextComposable()
-                        //TextComposable()
-                    //}
-                    //Column {
-                      //  ModifierExampleTwo()
-                       // ModifierExampleFour()
-                       // CustomText()
-                    //}
-              //  }
+
 
                 /*
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -203,11 +187,13 @@ class MainActivity : ComponentActivity() {
     @Composable
     fun SetupNavGraph(navController: NavHostController){
         NavHost(navController = navController, startDestination = "MainMenu"){
-            composable("MainMenu"){
-                MainMenuScreen(navController)
-            }
+            composable("MainMenu"){MainMenuScreen(navController)}
+            composable("HomeScreen"){ HomeScreen(navController)}
+            composable("ScreenTest"){ ScreenTest(navController) }
         }
+
     }
+
 
 
 }
