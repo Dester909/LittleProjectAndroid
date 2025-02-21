@@ -151,18 +151,7 @@ fun picture(){
     }
 }
 
-@Composable
-fun ComposeMultiScreenApp(){
-    val navController = rememberNavController()
-    SetupNavGraph(navController = navController)
-}
-@Composable
-fun SetupNavGraph(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = "MainMenu") {
-        composable("MainMenu") { MainMenuScreen(navController) }
-        composable("HomeScreen") { HomeScreen(navController) }
-    }
-}
+
 @Composable
 fun ScreenTest(navController: NavHostController){
     Column(

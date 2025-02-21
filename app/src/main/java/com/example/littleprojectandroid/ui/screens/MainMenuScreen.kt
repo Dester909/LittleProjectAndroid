@@ -37,6 +37,14 @@ fun MainMenuScreen(navController: NavHostController){
         ) {
             Text("Go to Screen Test")
         }
+        Button(
+            onClick = {navController.navigate("NetflixScreen")},
+            modifier = Modifier
+                .background(Color.Cyan)
+
+        ) {
+            Text("Go to NetflixScreen")
+        }
     }
 
 }
