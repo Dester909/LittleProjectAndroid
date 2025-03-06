@@ -1,6 +1,8 @@
 package com.example.littleprojectandroid.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AccountCircle
@@ -22,19 +24,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.littleprojectandroid.data.model.MenuModel
 import kotlinx.coroutines.launch
 
 @Composable
 fun componentsScreen(navController: NavHostController) {
-    //Buttons()
-    //FloatingButtons()
-    //Progress()
-    //Chips()
-    //Sliders()
-    //Switches()
-    //Badges()
-    //SnackBars()
-    //AlertDialogs()
+    val menuOptions = arrayOf(
+        MenuModel(1,"Buttons","First",Icons.Filled.AccountBox),
+        MenuModel(2,"Floating Buttons","Second",Icons.Filled.AccountBox),
+        MenuModel(3,"Progress","Three",Icons.Filled.AccountBox),
+        MenuModel(4,"Chips","Four",Icons.Filled.AccountBox),
+        MenuModel(5,"Sliders","Five",Icons.Filled.AccountBox),
+        MenuModel(6,"Switches","Six",Icons.Filled.AccountBox),
+        MenuModel(7,"Badges","Seven",Icons.Filled.AccountBox),
+        MenuModel(8,"Snackbars","Eight",Icons.Filled.AccountBox),
+        MenuModel(9,"AlertDialogs","Nine",Icons.Filled.AccountBox)
+    )
     var option by remember{ mutableStateOf("") }
     var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     var scope = rememberCoroutineScope ()
@@ -45,123 +50,23 @@ fun componentsScreen(navController: NavHostController) {
             ModalDrawerSheet {
                 Text("Menu", modifier = Modifier.padding(16.dp))
                 HorizontalDivider()
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Filled.AccountBox, contentDescription = "") },
-                    label = { Text("First Menu Item") },
-                    selected = false,
-                    onClick = {
-                        option = "First"
-                        scope.launch {
-                            drawerState.apply {
-                                close()
+                LazyColumn {
+                    items(menuOptions){item ->
+                    NavigationDrawerItem(
+                        icon = { Icon(item.icon, contentDescription = "") },
+                        label = { Text(item.tittle) },
+                        selected = false,
+                        onClick = {
+                            option = item.option
+                            scope.launch {
+                                drawerState.apply {
+                                    close()
+                                }
                             }
                         }
-                    }
-                )
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = "") },
-                    label = { Text("First Menu Item") },
-                    selected = false,
-                    onClick = {
-                        option = "Second"
-                        scope.launch {
-                            drawerState.apply {
-                                close()
-                            }
+                    )
                         }
-                    }
-                )
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Filled.Add, contentDescription = "") },
-                    label = { Text("First Menu Item") },
-                    selected = false,
-                    onClick = {
-                        option = "Three"
-                        scope.launch {
-                            drawerState.apply {
-                                close()
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Filled.AccountCircle, contentDescription = "") },
-                    label = { Text("First Menu Item") },
-                    selected = false,
-                    onClick = {
-                        option = "Four"
-                        scope.launch {
-                            drawerState.apply {
-                                close()
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Filled.Build, contentDescription = "") },
-                    label = { Text("First Menu Item") },
-                    selected = false,
-                    onClick = {
-                        option = "Five"
-                        scope.launch {
-                            drawerState.apply {
-                                close()
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Filled.Check, contentDescription = "") },
-                    label = { Text("First Menu Item") },
-                    selected = false,
-                    onClick = {
-                        option = "Six"
-                        scope.launch {
-                            drawerState.apply {
-                                close()
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Filled.Delete, contentDescription = "") },
-                    label = { Text("First Menu Item") },
-                    selected = false,
-                    onClick = {
-                        option = "Seven"
-                        scope.launch {
-                            drawerState.apply {
-                                close()
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Filled.ArrowDropDown, contentDescription = "") },
-                    label = { Text("First Menu Item") },
-                    selected = false,
-                    onClick = {
-                        option = "Eight"
-                        scope.launch {
-                            drawerState.apply {
-                                close()
-                            }
-                        }
-                    }
-                )
-                NavigationDrawerItem(
-                    icon = { Icon(Icons.Filled.Person, contentDescription = "") },
-                    label = { Text("First Menu Item") },
-                    selected = false,
-                    onClick = {
-                        option = "Nine"
-                        scope.launch {
-                            drawerState.apply {
-                                close()
-                            }
-                        }
-                    }
-                )
+                }
             }
         }
     ) {
