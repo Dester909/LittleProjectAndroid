@@ -2,6 +2,7 @@ package com.example.littleprojectandroid.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
@@ -13,6 +14,8 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
@@ -24,7 +27,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.littleprojectandroid.R
 import com.example.littleprojectandroid.data.model.MenuModel
+import com.example.littleprojectandroid.data.model.PostCardModel
+import com.example.littleprojectandroid.ui.components.PoastCardComponent
 import kotlinx.coroutines.launch
 
 @Composable
@@ -38,7 +44,8 @@ fun componentsScreen(navController: NavHostController) {
         MenuModel(6,"Switches","Six",Icons.Filled.AccountBox),
         MenuModel(7,"Badges","Seven",Icons.Filled.AccountBox),
         MenuModel(8,"Snackbars","Eight",Icons.Filled.AccountBox),
-        MenuModel(9,"AlertDialogs","Nine",Icons.Filled.AccountBox)
+        MenuModel(9,"AlertDialogs","Nine",Icons.Filled.AccountBox),
+        MenuModel(10,"Bars","Ten",Icons.Filled.AccountBox)
     )
     var option by remember{ mutableStateOf("") }
     var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -98,6 +105,9 @@ fun componentsScreen(navController: NavHostController) {
                 }
                 "Nine" ->{
                     AlertDialogs()
+                }
+                "Ten" ->{
+                    Bars()
                 }
             }
         }
@@ -395,5 +405,80 @@ fun AlertDialogs() {
             Text("Delete file")
         }
         Text(selectedOption)
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Preview(showBackground = true)
+@Composable
+fun Bars() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        MediumTopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = Color.Gray,
+                titleContentColor = Color.Green
+            ),
+            title = { Text("Screen title") },
+            actions = {
+                IconButton(onClick = {}) {
+                    Icon(imageVector = Icons.Filled.Search, contentDescription = "Search Button")
+                }
+                IconButton(onClick = {}) {
+                    Icon(imageVector = Icons.Filled.Settings, contentDescription = "Search Button")
+                }
+            }
+        )
+        val arrayPosts = arrayOf(
+            PostCardModel(1,"title 1","Text 1", R.drawable.dompag),
+            PostCardModel(2,"title 2","Text 2", R.drawable.proyectoextraccion),
+            PostCardModel(3,"title 3","Text 3", R.drawable.fugadereinas)
+        )
+        //LazyColumn
+        LazyRow(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f)
+        ) {
+            items(arrayPosts){item ->
+                PoastCardComponent(item.id,item.tittle,item.text,item.image)
+            }
+        }
+        BottomAppBar(
+            containerColor = Color.Red,
+            contentColor = Color.Magenta
+        ) {
+            IconButton(
+                //modifier = Modifier,
+                onClick = {},
+            ) {
+                Icon(imageVector = Icons.Filled.Add, contentDescription = "")
+            }
+            IconButton(
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            ) {
+                Icon(imageVector = Icons.Filled.Build, contentDescription = "")
+            }
+            IconButton(
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            ) {
+                Icon(imageVector = Icons.Filled.Add, contentDescription = "")
+            }
+            IconButton(
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            ) {
+                Icon(imageVector = Icons.Filled.Add, contentDescription = "")
+            }
+            IconButton(
+                modifier = Modifier.weight(1f),
+                onClick = {},
+            ) {
+                Icon(imageVector = Icons.Filled.Add, contentDescription = "")
+            }
+        }
     }
 }
