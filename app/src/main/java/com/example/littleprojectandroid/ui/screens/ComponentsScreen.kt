@@ -3,6 +3,10 @@ package com.example.littleprojectandroid.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
@@ -19,6 +23,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,10 +32,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.window.core.layout.WindowHeightSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.example.littleprojectandroid.R
 import com.example.littleprojectandroid.data.model.MenuModel
 import com.example.littleprojectandroid.data.model.PostCardModel
 import com.example.littleprojectandroid.ui.components.PoastCardComponent
+import com.example.littleprojectandroid.ui.components.PostCardCompactContent
 import kotlinx.coroutines.launch
 
 @Composable
@@ -45,7 +53,8 @@ fun componentsScreen(navController: NavHostController) {
         MenuModel(7,"Badges","Seven",Icons.Filled.AccountBox),
         MenuModel(8,"Snackbars","Eight",Icons.Filled.AccountBox),
         MenuModel(9,"AlertDialogs","Nine",Icons.Filled.AccountBox),
-        MenuModel(10,"Bars","Ten",Icons.Filled.AccountBox)
+        MenuModel(10,"Bars","Ten",Icons.Filled.AccountBox),
+        MenuModel(11,"Adaptive","Eleven",Icons.Filled.AccountBox)
     )
     var option by remember{ mutableStateOf("") }
     var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -108,6 +117,9 @@ fun componentsScreen(navController: NavHostController) {
                 }
                 "Ten" ->{
                     Bars()
+                }
+                "Eleven" ->{
+                    Adaptive()
                 }
             }
         }
@@ -415,10 +427,10 @@ fun Bars() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        MediumTopAppBar(
+        LargeTopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = Color.Gray,
-                titleContentColor = Color.Green
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.secondary
             ),
             title = { Text("Screen title") },
             actions = {
@@ -430,13 +442,21 @@ fun Bars() {
                 }
             }
         )
+        /*
         val arrayPosts = arrayOf(
             PostCardModel(1,"title 1","Text 1", R.drawable.dompag),
             PostCardModel(2,"title 2","Text 2", R.drawable.proyectoextraccion),
-            PostCardModel(3,"title 3","Text 3", R.drawable.fugadereinas)
+            PostCardModel(3,"title 3","Text 3", R.drawable.fugadereinas),
+            PostCardModel(4,"title 1","Text 4", R.drawable.dompag),
+            PostCardModel(5,"title 2","Text 5", R.drawable.proyectoextraccion),
+            PostCardModel(6,"title 3","Text 6", R.drawable.fugadereinas),
+            PostCardModel(7,"title 1","Text 7", R.drawable.dompag),
+            PostCardModel(8,"title 2","Text 8", R.drawable.proyectoextraccion),
+            PostCardModel(9,"title 3","Text 9", R.drawable.fugadereinas),
         )
         //LazyColumn
-        LazyRow(
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 100.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .weight(1f)
@@ -444,6 +464,15 @@ fun Bars() {
             items(arrayPosts){item ->
                 PoastCardComponent(item.id,item.tittle,item.text,item.image)
             }
+        }
+
+         */
+        Column (
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxSize()
+        ){
+
         }
         BottomAppBar(
             containerColor = Color.Red,
@@ -479,6 +508,67 @@ fun Bars() {
             ) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "")
             }
+        }
+    }
+}
+@Composable
+fun Adaptive() {
+    var windowSize = currentWindowAdaptiveInfo().windowSizeClass
+    var heigt = currentWindowAdaptiveInfo().windowSizeClass.windowHeightSizeClass
+    var width = currentWindowAdaptiveInfo().windowSizeClass.windowWidthSizeClass
+    // Compact width < 600 dp Phone Portrait
+    // Medium width >= 600 dp < 840 dp Tablet Portrait
+    // Expanded width >= 840 dp Tablet LandScape
+
+    //Compact height < 480 dp Phone Landscape
+    // Medium height >= 480 dp < 900 dp Tablet LandScape or Phone Portrait
+    // Expanded height >=900 dp Tablet Portrait
+
+// Lista de elementos con peso para ocupar el espacio disponible
+    val arrayPost = arrayOf(
+        PostCardModel(1, "Title1", "Text1", R.drawable.outlast),
+        PostCardModel(2, "Title2", "Text2", R.drawable.fugadereinas),
+        PostCardModel(3, "Title3", "Text3", R.drawable.madredealquiler),
+        PostCardModel(1, "Title4", "Text4", R.drawable.onepiece),
+        PostCardModel(2, "Title5", "Text5", R.drawable.proyectoextraccion),
+        PostCardModel(3, "Title6", "Text6", R.drawable.fugadereinas),
+        PostCardModel(1, "Title7", "Text7", R.drawable.nowhere),
+        PostCardModel(2, "Title8", "Text8", R.drawable.outlast),
+        PostCardModel(3, "Title9", "Text9", R.drawable.agentstone)
+    )
+    if (width == WindowWidthSizeClass.COMPACT) {
+        LazyColumn(
+            modifier = Modifier
+                // Permite que la lista ocupe el espacio disponible
+                .fillMaxSize()
+        ) {
+            items(arrayPost) { item ->
+                PoastCardComponent(
+                    item.id,
+                    item.tittle,
+                    item.text,
+                    item.image
+                )
+            }
+        }
+    } else if (heigt == WindowHeightSizeClass.COMPACT) {
+        if (width == WindowWidthSizeClass.COMPACT) {
+            LazyColumn(
+                modifier = Modifier
+                    // Permite que la lista ocupe el espacio disponible
+                    .fillMaxSize()
+            ) {
+                items(arrayPost) { item ->
+                    PostCardCompactContent(
+                        item.id,
+                        item.tittle,
+                        item.text,
+                        item.image
+                    )
+                }
+
+            }
+
         }
     }
 }

@@ -51,7 +51,7 @@ import com.example.littleprojectandroid.ui.theme.LittleProjectAndroidTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //enableEdgeToEdge()
+        enableEdgeToEdge()
         setContent {
             LittleProjectAndroidTheme {
                 ComposeMultiScreenApp()

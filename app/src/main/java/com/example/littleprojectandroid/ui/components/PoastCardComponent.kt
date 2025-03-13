@@ -3,6 +3,7 @@ package com.example.littleprojectandroid.ui.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -52,6 +53,36 @@ fun PoastCardComponent(id:Int, title:String, text:String, image:Int) {
                 lineHeight = 18.sp, // `sp` para texto en lugar de `dp`
                 modifier = Modifier.padding(top = 8.dp)
             )
+        }
+    }
+}
+@Composable
+fun PostCardCompactContent(id:Int, title:String, text:String, image:Int) {
+    Card(
+        modifier = Modifier
+            .background(Color.LightGray)
+            .fillMaxWidth()
+            .padding(9.dp)
+    ) {
+        Row(
+        ) {
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(100.dp),
+                painter = painterResource(image), // Se debe reemplazar con una imagen válida
+                contentDescription = "AndroidLogo",
+                contentScale = ContentScale.Crop
+            )
+            Column {
+                Text(
+                    text = title,
+                    textAlign = TextAlign.Justify,
+                    lineHeight = 14.sp,
+                    fontSize = 24.sp, // `sp` en lugar de `dp` para fuentes
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            }
         }
     }
 }
