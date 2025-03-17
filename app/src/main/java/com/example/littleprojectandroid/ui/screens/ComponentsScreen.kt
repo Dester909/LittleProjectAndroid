@@ -1,5 +1,7 @@
 package com.example.littleprojectandroid.ui.screens
 
+import android.os.Handler
+import android.os.Looper
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -8,6 +10,8 @@ import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.AccountCircle
@@ -17,6 +21,7 @@ import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
@@ -28,6 +33,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,6 +47,13 @@ import com.example.littleprojectandroid.data.model.PostCardModel
 import com.example.littleprojectandroid.ui.components.PoastCardComponent
 import com.example.littleprojectandroid.ui.components.PostCardCompactContent
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.delay
+
 
 @Composable
 fun componentsScreen(navController: NavHostController) {
@@ -54,7 +68,12 @@ fun componentsScreen(navController: NavHostController) {
         MenuModel(8,"Snackbars","Eight",Icons.Filled.AccountBox),
         MenuModel(9,"AlertDialogs","Nine",Icons.Filled.AccountBox),
         MenuModel(10,"Bars","Ten",Icons.Filled.AccountBox),
-        MenuModel(11,"Adaptive","Eleven",Icons.Filled.AccountBox)
+        MenuModel(11,"Adaptive","Eleven",Icons.Filled.AccountBox),
+        MenuModel(12,"InputFields","Twelve",Icons.Filled.AccountBox),
+        MenuModel(13,"Date Pickers","Thirteen",Icons.Filled.AccountBox),
+        MenuModel(14,"Pull to refresh","Fourteen",Icons.Filled.AccountBox),
+        MenuModel(15,"Botton sheets","Fiveteen",Icons.Filled.AccountBox),
+        MenuModel(16,"SegmentedButtons","Sixteen",Icons.Filled.AccountBox)
     )
     var option by remember{ mutableStateOf("") }
     var drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -120,6 +139,21 @@ fun componentsScreen(navController: NavHostController) {
                 }
                 "Eleven" ->{
                     Adaptive()
+                }
+                "Twelve" ->{
+                    InputFields()
+                }
+                "Thirteen" ->{
+                    DatePicker()
+                }
+                "Fourteen" ->{
+                    PullToRefresh()
+                }
+                "Fiveteen" ->{
+                    BottomSheets()
+                }
+                "Sixteen" ->{
+                    SegmentedButtons()
                 }
             }
         }
@@ -569,6 +603,135 @@ fun Adaptive() {
 
             }
 
+        }
+    }
+}
+@Composable
+fun InputFields() {
+    var text by remember { mutableStateOf(TextFieldValue("")) }
+    Column(modifier = Modifier.padding(16.dp)) {
+        TextField(
+            value = text,
+            onValueChange = { text = it },
+            label = { Text("Enter text") },
+            leadingIcon = { Icon(Icons.Filled.Edit, contentDescription = "Edit Icon") }
+        )
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DatePicker() {
+    val context = LocalContext.current
+    val calendar = Calendar.getInstance()
+    val datePickerState = rememberDatePickerState(initialSelectedDateMillis = calendar.timeInMillis)
+    val openDialog = remember { mutableStateOf(false) }
+
+    if (openDialog.value) {
+        DatePickerDialog(
+            onDismissRequest = { openDialog.value = false },
+            confirmButton = {
+                TextButton(onClick = { openDialog.value = false }) {
+                    Text("OK")
+                }
+            }
+        ) {
+            DatePicker(state = datePickerState)
+        }
+    }
+
+    Button(onClick = { openDialog.value = true }) {
+        Text("Pick a date")
+    }
+}
+
+@Composable
+fun PullToRefresh() {
+    var refreshing by remember { mutableStateOf(false) }
+    val refreshState = rememberSwipeRefreshState(isRefreshing = refreshing)
+    var message by remember { mutableStateOf("Hola") }
+
+    LaunchedEffect(refreshing) {
+        if (refreshing) {
+            delay(2000) // Simula la carga de datos por 2 segundos
+            message = if (message == "Hola") "¿Cómo estás?" else "Hola" // Alterna entre los mensajes
+            refreshing = false
+        }
+    }
+
+    SwipeRefresh(
+        state = refreshState,
+        onRefresh = { refreshing = true }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState()), // Hace que el contenido sea desplazable
+            contentAlignment = Alignment.Center
+        ) {
+            Text(text = message, modifier = Modifier.padding(16.dp))
+        }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BottomSheets() {
+    var showSheet by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Button(onClick = { showSheet = true }) {
+            Text("Mostrar Bottom Sheet")
+        }
+    }
+
+    if (showSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showSheet = false }
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            ) {
+                Text("Este es un Bottom Sheet", style = MaterialTheme.typography.headlineSmall)
+                Spacer(modifier = Modifier.height(8.dp))
+                Text("Aquí puedes agregar el contenido que desees.")
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(
+                    onClick = {
+                        // Cierra el bottom sheet
+                        showSheet = false
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Cerrar")
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun SegmentedButtons() {
+    var selectedOption by remember { mutableStateOf("Option 1") }
+    val options = listOf("Option 1", "Option 2", "Option 3")
+
+    Row(modifier = Modifier.padding(16.dp)) {
+        options.forEach { option ->
+            Button(
+                onClick = { selectedOption = option },
+                colors = ButtonDefaults.buttonColors(if (selectedOption == option) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary)
+            ) {
+                Text(option)
+            }
         }
     }
 }
