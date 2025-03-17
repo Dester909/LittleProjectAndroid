@@ -19,10 +19,10 @@ fun MainMenuScreen(navController: NavHostController){
         modifier = Modifier
             .padding(10.dp)
             .fillMaxSize()
-    ){
+    ) {
         Text("main menu")
         Button(
-            onClick = {navController.navigate("HomeScreen")},
+            onClick = { navController.navigate("HomeScreen") },
             modifier = Modifier
                 .background(Color.Cyan)
 
@@ -30,7 +30,7 @@ fun MainMenuScreen(navController: NavHostController){
             Text("Go to Home Screen")
         }
         Button(
-            onClick = {navController.navigate("ScreenTest")},
+            onClick = { navController.navigate("ScreenTest") },
             modifier = Modifier
                 .background(Color.Cyan)
 
@@ -38,13 +38,20 @@ fun MainMenuScreen(navController: NavHostController){
             Text("Go to Screen Test")
         }
         Button(
-            onClick = {navController.navigate("NetflixScreen")},
+            onClick = { navController.navigate("NetflixScreen") },
             modifier = Modifier
                 .background(Color.Cyan)
 
         ) {
             Text("Go to NetflixScreen")
         }
-    }
+        Button(
+            onClick = { navController.navigate("componentsScreen") },
+            modifier = Modifier
+                .background(Color.Cyan)
 
+        ) {
+            Text("Go to Components Screen")
+        }
+    }
 }
