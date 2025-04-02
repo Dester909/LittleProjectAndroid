@@ -1,6 +1,7 @@
 package com.example.littleprojectandroid.ui.screens
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,10 +33,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import com.example.littleprojectandroid.data.model.UserModel
+import com.example.littleprojectandroid.data.viewmodel.UserViewModel
 
 @Composable
-fun LoginScreen(navHostController: NavHostController){
+fun LoginScreen(navController: NavHostController, ){
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -45,12 +50,15 @@ fun LoginScreen(navHostController: NavHostController){
         verticalArrangement = Arrangement.SpaceEvenly
 
     ){
-        LoginForm()
+        LoginForm(navController)
     }
 }
 
 @Composable
-fun LoginForm(){
+fun LoginForm(
+    navController: NavController,
+    viewModel: UserViewModel = viewModel(),
+    ){
     val context = LocalContext.current
     Card(
         colors = CardDefaults.cardColors(
@@ -110,7 +118,7 @@ fun LoginForm(){
                 ),
                 modifier = Modifier.fillMaxWidth().padding(0.dp,10.dp),
                 shape = CutCornerShape(4.dp),
-                onClick = { TryLogin(user, password, context) }
+                onClick = { TryLogin(user, password, context, viewModel, navController) }
             ) {
                 Text("LOG IN")
             }
@@ -130,12 +138,25 @@ fun LoginForm(){
     }
 }
 
-fun TryLogin(user:String, password:String, context:Context){
+fun TryLogin(
+    user:String,
+    password:String,
+    context:Context,
+    viewModel: UserViewModel,
+    navController: NavController){
     if(user == "" || password == ""){
         Toast.makeText(
             context,
             "User or Password can't be empty",
             Toast.LENGTH_SHORT
         ).show()
+    } else {
+        val user_model = UserModel(0,"", user, password)
+        viewModel.loginAPI(user_model){ jsonResponse ->
+        val loginStatus = jsonResponse?.get("login")?.asString
+        Log.d("debug","LOGIN STATUS $loginStatus")
+            if (loginStatus == "success")
+                navController.navigate("AccountScreen")
+        }
     }
 }

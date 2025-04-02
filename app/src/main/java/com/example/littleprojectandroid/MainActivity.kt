@@ -41,6 +41,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.littleprojectandroid.ui.screens.AccountScreen
 import com.example.littleprojectandroid.ui.screens.HomeScreen
 import com.example.littleprojectandroid.ui.screens.LoginScreen
 import com.example.littleprojectandroid.ui.screens.MainMenuScreen
@@ -196,6 +197,7 @@ class MainActivity : ComponentActivity() {
             composable("NetflixScreen") { NetflixScreen(navController)}
             composable("componentsScreen") { componentsScreen(navController)}
             composable("loginScreen") { LoginScreen(navController)}
+            composable("AccountScreen") { AccountScreen(navController)}
 
     }
     }

@@ -37,7 +37,15 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            excludes += "META-INF/INDEX.LIST"
+            excludes += "META-INF/DEPENDENCIES"
+            excludes += "META-INF/io.netty.versions.properties"
+        }
+    }
 }
+
 
 dependencies {
 
@@ -53,6 +61,7 @@ dependencies {
     implementation(libs.androidx.adaptive.android)
     implementation(libs.androidx.material3.android)
     implementation(libs.accompanist.swiperefresh)
+    implementation(libs.firebase.appdistribution.gradle)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
