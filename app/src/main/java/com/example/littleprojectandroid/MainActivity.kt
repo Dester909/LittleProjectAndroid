@@ -42,6 +42,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.littleprojectandroid.data.database.AppDatabase
+import com.example.littleprojectandroid.data.database.DatabaseProvider
 import com.example.littleprojectandroid.ui.screens.AccountsScreen
 import com.example.littleprojectandroid.ui.screens.HomeScreen
 import com.example.littleprojectandroid.ui.screens.LoginScreen
@@ -53,9 +55,12 @@ import com.example.littleprojectandroid.ui.screens.componentsScreen
 import com.example.littleprojectandroid.ui.theme.LittleProjectAndroidTheme
 
 class MainActivity : ComponentActivity() {
+    lateinit var database: AppDatabase
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
+            database = DatabaseProvider.getDatabase(this)
+            Log.d("debug-db", "Database loaded successfully")
 
         }catch (exception:Exception){
             Log.d("debug-db", "ERROR: $exception")

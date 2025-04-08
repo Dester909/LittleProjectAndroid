@@ -7,6 +7,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,7 +27,8 @@ fun AccountDetailCardComponent(
     username:String,
     password:String,
     imageURL:String,
-    description:String
+    description:String,
+    onSaveClick: () -> Unit
 ){
     Column (){
         Row (
@@ -43,6 +48,17 @@ fun AccountDetailCardComponent(
                 contentDescription = "Account Logo",
                 contentScale = ContentScale.FillBounds
             )
+            IconButton(
+                modifier = Modifier.padding(20.dp,0.dp,0.dp,0.dp),
+                onClick = {
+                    onSaveClick()
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Star,
+                    contentDescription = "Save as Favorite"
+                )
+            }
         }
     }
 }
