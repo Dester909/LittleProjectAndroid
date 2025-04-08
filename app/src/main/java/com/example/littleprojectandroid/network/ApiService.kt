@@ -7,6 +7,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @POST("user")
@@ -14,5 +15,11 @@ interface ApiService {
 
     @GET("service")
     suspend fun GetAccounts():Response<List<AccountModel>>
+
+    @GET("service/{id}")
+    suspend fun getAccount(@Path("id") id:Int): Response<AccountModel>
+
+    @POST("service")
+    suspend fun addAccount(@Body service:AccountModel): Response<JsonObject>
 }
 

@@ -1,6 +1,7 @@
 package com.example.littleprojectandroid
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -41,10 +42,11 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.littleprojectandroid.ui.screens.AccountScreen
+import com.example.littleprojectandroid.ui.screens.AccountsScreen
 import com.example.littleprojectandroid.ui.screens.HomeScreen
 import com.example.littleprojectandroid.ui.screens.LoginScreen
 import com.example.littleprojectandroid.ui.screens.MainMenuScreen
+import com.example.littleprojectandroid.ui.screens.ManageAccountScreen
 import com.example.littleprojectandroid.ui.screens.NetflixScreen
 import com.example.littleprojectandroid.ui.screens.ScreenTest
 import com.example.littleprojectandroid.ui.screens.componentsScreen
@@ -53,6 +55,11 @@ import com.example.littleprojectandroid.ui.theme.LittleProjectAndroidTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        try {
+
+        }catch (exception:Exception){
+            Log.d("debug-db", "ERROR: $exception")
+        }
         enableEdgeToEdge()
         setContent {
             LittleProjectAndroidTheme {
@@ -190,16 +197,18 @@ class MainActivity : ComponentActivity() {
     }
     @Composable
     fun SetupNavGraph(navController: NavHostController){
-        NavHost(navController = navController, startDestination = "MainMenu"){
+        NavHost(navController = navController, startDestination = "AccountScreen"){
             composable("MainMenu"){MainMenuScreen(navController)}
             composable("HomeScreen"){ HomeScreen(navController)}
             composable("ScreenTest"){ ScreenTest(navController) }
             composable("NetflixScreen") { NetflixScreen(navController)}
             composable("componentsScreen") { componentsScreen(navController)}
             composable("loginScreen") { LoginScreen(navController)}
-            composable("AccountScreen") { AccountScreen(navController)}
+            composable("AccountScreen") { AccountsScreen(navController)}
+            composable("ManageAccountScreen") { ManageAccountScreen(navController)}
 
-    }
+
+        }
     }
 }
 /*
