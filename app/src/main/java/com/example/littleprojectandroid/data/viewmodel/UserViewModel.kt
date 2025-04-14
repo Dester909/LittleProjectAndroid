@@ -7,26 +7,25 @@ import com.example.littleprojectandroid.data.model.UserModel
 import com.example.littleprojectandroid.network.RetrofitClient
 import com.google.gson.JsonObject
 import kotlinx.coroutines.launch
+import retrofit2.Response
 
-class UserViewModel:ViewModel() {
+class UserViewModel : ViewModel() {
     val api = RetrofitClient.api
-    fun loginAPI(user_model:UserModel, onResult:(JsonObject?)->Unit) {
+
+    fun loginAPI(user: UserModel, onResult: (Response<JsonObject>) -> Unit) {
         viewModelScope.launch {
             try {
-                val response = api.login(user_model)
+                val response = api.login(user)
                 if (response.isSuccessful) {
-                    val jsonResponse = response.body()
-                    Log.d("debug", response.body().toString())
-                    onResult(jsonResponse)
+                    Log.d("debug", "Login successful: ${response.body()}")
+                    onResult(response)
                 } else {
-                    Log.d("debug", "ERROR: ${response.body()}")
-                    onResult(null)
-
+                    Log.d("debug", "Login failed: ${response.message()}")
+                    onResult(response)
                 }
-
             } catch (exception: Exception) {
-                Log.d("debug", "API CALL FAILED ${exception}")
-                onResult(null)
+                Log.d("debug", "API CALL FAILED: $exception")
+                onResult(Response.error(500, null))
             }
         }
     }

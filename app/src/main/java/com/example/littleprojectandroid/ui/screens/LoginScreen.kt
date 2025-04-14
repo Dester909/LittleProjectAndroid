@@ -39,6 +39,10 @@ import coil.compose.AsyncImage
 import com.example.littleprojectandroid.data.model.UserModel
 import com.example.littleprojectandroid.data.viewmodel.UserViewModel
 
+
+
+
+
 @Composable
 fun LoginScreen(navController: NavHostController, ){
     Column (
@@ -58,7 +62,7 @@ fun LoginScreen(navController: NavHostController, ){
 fun LoginForm(
     navController: NavController,
     viewModel: UserViewModel = viewModel(),
-    ){
+){
     val context = LocalContext.current
     Card(
         colors = CardDefaults.cardColors(
@@ -90,8 +94,8 @@ fun LoginForm(
                     unfocusedBorderColor = MaterialTheme.colorScheme.primary,
                     focusedBorderColor = MaterialTheme.colorScheme.secondary,
                     unfocusedContainerColor = Color.Transparent,
-                    unfocusedTextColor = Color.White,
-                    focusedTextColor = Color.White
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = Color.Black
                 )
 
             )
@@ -106,15 +110,15 @@ fun LoginForm(
                     unfocusedBorderColor = MaterialTheme.colorScheme.primary,
                     focusedBorderColor = MaterialTheme.colorScheme.secondary,
                     unfocusedContainerColor = Color.Transparent,
-                    unfocusedTextColor = Color.White,
-                    focusedTextColor = Color.White
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = Color.Black
                 )
 
             )
             FilledTonalButton(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.secondary
+                    contentColor = Color.White
                 ),
                 modifier = Modifier.fillMaxWidth().padding(0.dp,10.dp),
                 shape = CutCornerShape(4.dp),
@@ -139,24 +143,37 @@ fun LoginForm(
 }
 
 fun TryLogin(
-    user:String,
-    password:String,
-    context:Context,
+    user: String,
+    password: String,
+    context: Context,
     viewModel: UserViewModel,
-    navController: NavController){
-    if(user == "" || password == ""){
+    navController: NavController
+) {
+    if (user == "" || password == "") {
         Toast.makeText(
             context,
             "User or Password can't be empty",
             Toast.LENGTH_SHORT
         ).show()
     } else {
-        val user_model = UserModel(0,"", user, password)
-        viewModel.loginAPI(user_model){ jsonResponse ->
-        val loginStatus = jsonResponse?.get("login")?.asString
-        Log.d("debug","LOGIN STATUS $loginStatus")
-            if (loginStatus == "success")
-                navController.navigate("AccountScreen")
+        val user_model = UserModel(0, "", user, password)
+        viewModel.loginAPI(user_model) { response ->
+            if (response.isSuccessful) {
+                val jsonResponse = response.body()
+                val loginStatus = jsonResponse?.get("login")?.asString
+                Log.d("debug", "LOGIN STATUS $loginStatus")
+                if (loginStatus == "success") {
+                    navController.navigate("AccountScreen")
+                } else {
+                    Toast.makeText(context, "Login failed", Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(
+                    context,
+                    "Login failed: ${response.message()}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 }

@@ -36,12 +36,12 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AccountsScreen (
+fun AccountsScreen(
     navController: NavController,
-    viewModel: AccountViewModel= viewModel()
-){
-    var accounts by remember { mutableStateOf<List<AccountModel>>(emptyList())}
-    var showBottomSheet by remember { mutableStateOf(false ) }
+    viewModel: AccountViewModel = viewModel()
+) {
+    var accounts by remember { mutableStateOf<List<AccountModel>>(emptyList()) }
+    var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = false
     )
@@ -51,32 +51,31 @@ fun AccountsScreen (
     val accountDao = db.accountDao()
 
     Column {
-        TopBarComponent("Accounts", navController,"AccountScreen")
+        TopBarComponent("Accounts", navController, "AccountScreen")
         LaunchedEffect(Unit) {
             viewModel.getAccounts { response ->
-                if (response.isSuccessful){
-                    accounts= response.body()?: emptyList()
+                if (response.isSuccessful) {
+                    accounts = response.body() ?: emptyList()
                 } else {
                     Log.d("debug", "Failed to load data")
                 }
             }
         }
-        val listState= rememberLazyListState()
-        LazyColumn (
-            modifier = Modifier
-                .fillMaxSize(),
+        val listState = rememberLazyListState()
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
             state = listState
-        ){
-            items(accounts){account->
+        ) {
+            items(accounts) { account ->
                 AccountCardComponent(
                     account.id,
                     account.name,
                     account.username,
                     account.imageURL,
                     onButtonClick = {
-                        viewModel.getAccount(account.id){ response ->
-                            if (response.isSuccessful){
-                                accountDetail= response.body()
+                        viewModel.getAccount(account.id) { response ->
+                            if (response.isSuccessful) {
+                                accountDetail = response.body()
                             }
                         }
                         showBottomSheet = true
@@ -84,37 +83,35 @@ fun AccountsScreen (
                 )
             }
         }
-        //AccountCardComponent(1,"name", "user@gmail.com", "")
     }
-    if (showBottomSheet){
+
+    if (showBottomSheet) {
         ModalBottomSheet(
-            modifier = Modifier
-                .fillMaxHeight(),
+            modifier = Modifier.fillMaxHeight(),
             onDismissRequest = {
                 showBottomSheet = false
             },
             sheetState = sheetState
         ) {
             AccountDetailCardComponent(
-                accountDetail?.id ?:0,
-                accountDetail?.name ?: " ",
-                accountDetail?.username ?: " ",
-                accountDetail?.password ?: " ",
-                accountDetail?.imageURL ?: " ",
-                accountDetail?.description ?: " ",
+                id = accountDetail?.id ?: 0,
+                name = accountDetail?.name ?: " ",
+                username = accountDetail?.username ?: " ",
+                password = accountDetail?.password ?: " ",
+                imageURL = accountDetail?.imageURL ?: " ",
+                description = accountDetail?.description ?: " ",
                 onSaveClick = {
                     CoroutineScope(Dispatchers.IO).launch {
-                        try{
-                            accountDetail?.let {accountDao.insert(it.toAccountEntity()) }
-                            Log.d("debug-db","account inserted successfully")
-
-                        }catch (exception:Exception){
-                            Log.d("debug-db","ERROR: $exception")
+                        try {
+                            accountDetail?.let { accountDao.insert(it.toAccountEntity()) }
+                            Log.d("debug-db", "account inserted successfully")
+                        } catch (exception: Exception) {
+                            Log.d("debug-db", "ERROR: $exception")
                         }
                     }
-                }
+                },
+                navController = navController
             )
-
         }
     }
 }
