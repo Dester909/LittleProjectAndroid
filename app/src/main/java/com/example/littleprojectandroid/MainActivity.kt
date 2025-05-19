@@ -1,6 +1,7 @@
 package com.example.littleprojectandroid
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -48,8 +50,10 @@ import com.example.littleprojectandroid.ui.screens.NetflixScreen
 import com.example.littleprojectandroid.ui.screens.ScreenTest
 import com.example.littleprojectandroid.ui.screens.componentsScreen
 import com.example.littleprojectandroid.ui.theme.LittleProjectAndroidTheme
+import androidx.fragment.app.FragmentActivity
+import com.example.littleprojectandroid.ui.screens.BiometricScreen
 
-class MainActivity : ComponentActivity() {
+class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -189,15 +193,22 @@ class MainActivity : ComponentActivity() {
     }
     @Composable
     fun SetupNavGraph(navController: NavHostController){
-        NavHost(navController = navController, startDestination = "AppScreen"){
+        NavHost(navController = navController, startDestination = "biometric_screen"){
             composable("MainMenu"){MainMenuScreen(navController)}
             composable("HomeScreen"){ HomeScreen(navController)}
             composable("ScreenTest"){ ScreenTest(navController) }
             composable("NetflixScreen") { NetflixScreen(navController)}
             composable("componentsScreen") { componentsScreen(navController)}
             composable("AppScreen") { AppScreen(navController)}
+            composable("biometric_screen") {
+                val context = LocalContext.current
+                BiometricScreen(navController, onAuthSuccess = {
+                    Toast.makeText(context, "¡Autenticación exitosa!", Toast.LENGTH_SHORT).show()
+                })
+            }
 
-    }
+
+        }
     }
 }
 /*
