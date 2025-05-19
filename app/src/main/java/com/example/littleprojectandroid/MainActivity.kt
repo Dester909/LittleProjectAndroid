@@ -41,6 +41,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.littleprojectandroid.ui.screens.AppScreen
 import com.example.littleprojectandroid.ui.screens.HomeScreen
 import com.example.littleprojectandroid.ui.screens.MainMenuScreen
 import com.example.littleprojectandroid.ui.screens.NetflixScreen
@@ -188,12 +189,13 @@ class MainActivity : ComponentActivity() {
     }
     @Composable
     fun SetupNavGraph(navController: NavHostController){
-        NavHost(navController = navController, startDestination = "MainMenu"){
+        NavHost(navController = navController, startDestination = "AppScreen"){
             composable("MainMenu"){MainMenuScreen(navController)}
             composable("HomeScreen"){ HomeScreen(navController)}
             composable("ScreenTest"){ ScreenTest(navController) }
             composable("NetflixScreen") { NetflixScreen(navController)}
             composable("componentsScreen") { componentsScreen(navController)}
+            composable("AppScreen") { AppScreen(navController)}
 
     }
     }
