@@ -52,6 +52,9 @@ import com.example.littleprojectandroid.ui.screens.componentsScreen
 import com.example.littleprojectandroid.ui.theme.LittleProjectAndroidTheme
 import androidx.fragment.app.FragmentActivity
 import com.example.littleprojectandroid.ui.screens.BiometricScreen
+import androidx.navigation.navDeepLink
+import com.example.littleprojectandroid.ui.screens.MenuScreen
+import com.example.littleprojectandroid.ui.screens.NotificationScreen
 
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -193,12 +196,13 @@ class MainActivity : FragmentActivity() {
     }
     @Composable
     fun SetupNavGraph(navController: NavHostController){
-        NavHost(navController = navController, startDestination = "biometric_screen"){
+        NavHost(navController = navController, startDestination = "MenuScreen"){
             composable("MainMenu"){MainMenuScreen(navController)}
             composable("HomeScreen"){ HomeScreen(navController)}
             composable("ScreenTest"){ ScreenTest(navController) }
             composable("NetflixScreen") { NetflixScreen(navController)}
             composable("componentsScreen") { componentsScreen(navController)}
+            composable("MenuScreen") { MenuScreen(navController)}
             composable("AppScreen") { AppScreen(navController)}
             composable("biometric_screen") {
                 val context = LocalContext.current
@@ -206,6 +210,14 @@ class MainActivity : FragmentActivity() {
                     Toast.makeText(context, "¡Autenticación exitosa!", Toast.LENGTH_SHORT).show()
                 })
             }
+            composable(
+                route = "notifScreen",
+                deepLinks = listOf(navDeepLink { uriPattern = "app://notificacion"
+                })
+            ) {
+                NotificationScreen(navController)
+            }
+
 
 
         }
