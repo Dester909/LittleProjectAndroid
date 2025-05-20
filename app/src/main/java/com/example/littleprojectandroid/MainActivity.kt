@@ -184,7 +184,7 @@ class MainActivity : ComponentActivity() {
                 contentScale = ContentScale.FillHeight
             )
         }
-    }
+    }//
 
     @Composable
     fun ComposeMultiScreenApp() {
